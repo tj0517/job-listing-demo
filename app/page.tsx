@@ -11,7 +11,7 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen bg-gray-50 text-slate-900 dark:bg-zinc-950 dark:text-zinc-100">
-      {/* Nagłówek sekcji */}
+
       <header className="bg-white shadow-sm dark:bg-zinc-900">
         <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -23,7 +23,7 @@ export default async function Home() {
         </div>
       </header>
 
-      {/* Kontener listy */}
+
      <List jobs_active={jobs_active} />
     </main>
   );

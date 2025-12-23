@@ -1,4 +1,5 @@
 import { unstable_cache } from "next/cache";
+import Airtable from "airtable"; // Importujemy SDK
 import { JobLocation } from "./variables";
 
 export interface Job {
@@ -15,31 +16,22 @@ export interface Job {
     createdTime: string;
 }
 
-interface JobsResponse {
-    records: Job[];
-    offset?: string;
-}
 
-const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID;
-const AIRTABLE_API_KEY = process.env.AIRTABLE_API_KEY;
+const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(process.env.AIRTABLE_BASE_ID!);
 const AIRTABLE_TABLE_NAME = 'Jobs';
-const AIRTABLE_API_URL = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}`;
 
 
 const fetchRawJobs = async (): Promise<Job[]> => {
-    const response = await fetch(AIRTABLE_API_URL, {
-        headers: {
-            Authorization: `Bearer ${AIRTABLE_API_KEY}`,
-        },
-        cache: 'no-store' 
-    });
 
-    if (!response.ok) {
-        throw new Error('Failed to fetch jobs from Airtable');
-    }
+    const records = await base(AIRTABLE_TABLE_NAME).select({
+        view: "Grid view", 
+    }).all();
 
-    const data: JobsResponse = await response.json();
-    return data.records;
+    return records.map((record) => ({
+        id: record.id,
+        fields: record.fields as Job['fields'],
+        createdTime: record._rawJson.createdTime,
+    }));
 };
 
 
@@ -51,8 +43,6 @@ export const getCachedJobs = unstable_cache(
         tags: ['jobs'] 
     }
 );
-
-
 
 export const getActiveJobs = async (): Promise<Job[]> => {
     const jobs = await getCachedJobs();
@@ -71,11 +61,8 @@ export const getJobSlugs = async (): Promise<{ slug: string }[]> => {
         .map(job => ({ slug: job.fields.Slug }));
 };
 
-
 export const getJobsByLocation = async (location: string): Promise<Job[]> => {
     const jobs = await getActiveJobs();
-    
-
     const targetLocation = location.toLowerCase();
     
     return jobs.filter(job => 

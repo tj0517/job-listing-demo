@@ -22,7 +22,7 @@ export default function Navbar() {
           <span className="hidden sm:inline-block">JobBoard</span>
         </Link>
 
-        {/* Desktop Menu */}
+
         <div className="hidden md:flex items-center gap-8">
           <Link href="/" className="text-sm font-medium text-gray-600 hover:text-blue-600 dark:text-gray-300">
             Wszystkie Oferty
@@ -37,7 +37,7 @@ export default function Navbar() {
             <div className="absolute right-0 top-full hidden w-48 pt-2 group-hover:block">
               <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-xl ring-1 ring-black/5 dark:border-zinc-800 dark:bg-zinc-900 dark:ring-white/10">
                 <div className="p-1 flex flex-col">
-                  {/* TUTAJ: Używamy importowanej tablicy */}
+
                   {JOB_LOCATIONS.map((city) => (
                     <Link
                       key={city}
