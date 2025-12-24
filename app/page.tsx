@@ -1,8 +1,9 @@
 import { getActiveJobs } from "./lib/airtable";
 import FilteredJobBoard from "./components/FilteredJobs";
+import { Suspense } from "react";
 
-// ISR: Odświeżaj dane z Airtable w tle co 60 sekund
 export const revalidate = 60;
+
 
 export default async function HomePage() {
   // 1. Pobieramy wszystkie aktywne oferty (Server Side)
@@ -22,9 +23,20 @@ export default async function HomePage() {
         </div>
 
         {/* 2. Przekazujemy dane do Client Componentu, który zajmie się resztą */}
+        <Suspense fallback={<LoadingState />}>
         <FilteredJobBoard initialJobs={jobs} />
+      </Suspense>
         
       </div>
     </main>
+  );
+}
+function LoadingState() {
+  return (
+    <div className="w-[95vw] mx-auto mt-6 flex gap-6">
+      <div className="w-[300px] h-[500px] bg-gray-200 dark:bg-zinc-800 animate-pulse rounded-xl" />
+      <div className="flex-1 h-[500px] bg-gray-200 dark:bg-zinc-800 animate-pulse rounded-xl" />
+      <div className="flex-1 h-[500px] bg-gray-200 dark:bg-zinc-800 animate-pulse rounded-xl" />
+    </div>
   );
 }
