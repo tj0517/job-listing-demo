@@ -1,6 +1,5 @@
 import { unstable_cache } from "next/cache";
 import Airtable from "airtable"; // Importujemy SDK
-import { JobLocation } from "./variables";
 
 export interface Job {
     id: string;
@@ -8,7 +7,7 @@ export interface Job {
         Title: string;
         Company: string;
         Slug: string;
-        Location: JobLocation;
+        Location: string;
         Salary: string;
         Description: string;
         Status: 'Active' | 'Draft';

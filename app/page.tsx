@@ -1,30 +1,30 @@
-import Image from "next/image";
-import Link from "next/link"; // Dodane do obsługi linków
-import {  getActiveJobs } from "./lib/airtable";
-import List from "./components/job-list";
+import { getActiveJobs } from "./lib/airtable";
+import FilteredJobBoard from "./components/FilteredJobs";
 
-export const revalidate = 60; 
+// ISR: Odświeżaj dane z Airtable w tle co 60 sekund
+export const revalidate = 60;
 
-export default async function Home() {
-
-  const jobs_active = await getActiveJobs();
+export default async function HomePage() {
+  // 1. Pobieramy wszystkie aktywne oferty (Server Side)
+  const jobs = await getActiveJobs();
 
   return (
-    <main className="min-h-screen bg-gray-50 text-slate-900 dark:bg-zinc-950 dark:text-zinc-100">
-
-      <header className="bg-white shadow-sm dark:bg-zinc-900">
-        <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
-            Aktualne Oferty Pracy
+    <main className="min-h-screen bg-gray-50 dark:bg-black">
+      <div className="mx-auto px-4 py-12 sm:px-6 lg:px-8">
+        
+        <div className="text-center mb-10">
+          <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-5xl">
+            Znajdź pracę w transporcie
           </h1>
-          <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-            Znajdź najlepsze zlecenia dla kierowców i w logistyce.
+          <p className="mt-4 text-lg text-gray-600 dark:text-gray-400">
+            Przeglądaj aktualne oferty z całej Polski.
           </p>
         </div>
-      </header>
 
-
-     <List jobs_active={jobs_active} />
+        {/* 2. Przekazujemy dane do Client Componentu, który zajmie się resztą */}
+        <FilteredJobBoard initialJobs={jobs} />
+        
+      </div>
     </main>
   );
 }
