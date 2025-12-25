@@ -117,11 +117,11 @@ export function JobFilter({ locations, companies }: JobFilterProps) {
 
         {/* 2. LOKALIZACJA (Styl Kafelkowy Radio) */}
         <div className="space-y-3">
-          <label className="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider">
+          <label className="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider ">
             Lokalizacja
           </label>
           
-          <div className="space-y-2 max-h-[300px] overflow-y-auto pr-1 custom-scrollbar">
+          <div className="space-y-2 max-h-[300px] overflow-y-auto pr-1 custom-scrollbar mt-2">
             
             {/* Opcja: Wszystkie */}
             <LocationRadio 
@@ -147,7 +147,7 @@ export function JobFilter({ locations, companies }: JobFilterProps) {
 
         {/* 3. FIRMA (Multi-Select Dropdown) */}
         <div className="space-y-3">
-          <label className="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider">
+          <label className="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider ">
             Firma
           </label>
           
@@ -247,7 +247,7 @@ function CompanyDropdown({
       {/* TRIGGER */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`w-full flex items-center justify-between bg-white dark:bg-zinc-900 border rounded-lg py-2.5 pl-3 pr-3 text-sm font-medium shadow-sm transition-all
+        className={`w-full mt-2 flex items-center justify-between bg-white dark:bg-zinc-900 border rounded-lg py-2.5 pl-3 pr-3 text-sm font-medium shadow-sm transition-all
           ${isOpen || selected.length > 0
             ? 'border-blue-600 ring-1 ring-blue-100 dark:ring-blue-900/30' 
             : 'border-gray-200 dark:border-zinc-800 hover:border-blue-400 '
